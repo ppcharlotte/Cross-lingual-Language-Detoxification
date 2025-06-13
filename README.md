@@ -36,7 +36,7 @@ This project explores **cross-lingual detoxification** using parameter-efficient
 
 ## 📁 Data & Training
 
-- Fine-tuning used ~3,000 parallel detox pairs (EN, RU, UK).
+- Fine-tuning used ~3,9000 parallel detox pairs (EN, RU, UK).
 - Target format:  
   ```
   {"source": "<prefix> <toxic sentence>", "target": "<neutral rewrite>"}
