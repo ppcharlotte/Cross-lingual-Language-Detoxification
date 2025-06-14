@@ -27,20 +27,25 @@ This project explores **cross-lingual detoxification** using parameter-efficient
 
 ## 📊 Results Summary
 
-| Language | STA    |   SIM  | XCOMET | J (Joint Score) |
-|----------|--------|--------|--------|-----------------|
-| Spanish  | 0.844  |  0.875 | 0.884  | 0.660           | significantly higher than baseline
-| Chinese  | 0.730  |  0.835 | 0.821  | 0.500           | Lower performance; model struggles with obfuscated toxicity |
+|      model      | Language |   STA  |  SIM  | XCOMET | J (Joint Score) |
+|-----------------|----------|--------|-------|--------|-----------------|
+| mt0-large       |  Spanish |  0.844 | 0.875 | 0.884  |      0.660      | 
+| baseline-delete |  Spanish |  0.737 | 0.889 | 0.877  |      0.578      |
+| mt0-large       |  Chinese |  0.730 | 0.835 | 0.821  |      0.500      | 
+| baseline-delete |  Chinese |  0.836 | 0.823 | 0.747  |      0.523      |
 
----
+- Spanish: model outperformed the baseline in Joint score and achieved significantly higher scores in style transfer accuracy 
+- Chinese: Lower Joint Score than the baseline, better performance in content preservation and fluency. The model struggle with typologically different language with different forms of toxicity 
+
 
 ## 📁 Data & Training
 
-- Fine-tuning used ~3,9000 parallel detox pairs (EN, RU, UK).
+- Fine-tuning used 38197 parallel detox pairs (EN, RU, UK). (5% as development set)
 - Target format:  
   ```
   {"source": "<prefix> <toxic sentence>", "target": "<neutral rewrite>"}
   ```
+  prefix: Rewrite the sentence by replacing toxic or offensive words with neutral and polite expressions. Preserve the original meaning.
 - Model: [`bigscience/mt0-large`](https://huggingface.co/bigscience/mt0-large) + LoRA  
   - LoRA config: `r=32, alpha=64, dropout=0.05`
 - Optimizer: AdamW, 3 epochs, cosine scheduler
@@ -82,7 +87,7 @@ tqdm
 
 ## 🧠 Acknowledgements
 
-- Detox datasets adapted from [TextDetox](https://huggingface.co/datasets/textdetox/multilingual_paradetox, )
+- Detox datasets adapted from [TextDetox](https://huggingface.co/datasets/textdetox/multilingual_paradetox , https://huggingface.co/datasets/s-nlp/ru_paradetox , https://huggingface.co/datasets/s-nlp/paradetox , https://huggingface.co/datasets/textdetox/uk_paradetox)
 - Toxicity classifier from [textdetox/xlmr-large-toxicity-classifier](https://huggingface.co/textdetox/xlmr-large-toxicity-classifier)
 - LaBSE embedding(https://huggingface.co/sentence-transformers/LaBSE)
 
